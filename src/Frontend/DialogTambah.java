@@ -5,6 +5,7 @@
  */
 package Frontend;
 
+import TestKode.*;
 import Backend.TableRiwayat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -527,6 +528,7 @@ public class DialogTambah extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -539,22 +541,71 @@ public class DialogTambah extends javax.swing.JDialog {
         
         
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now();        
         
+        String diskon = tfKodeDiskon.getText();
         
-        ran.setRiwayat(tfRiwayat.getText());
-        ran.setId_Kasir(tfNamaKasir.getText());
-        ran.setWaktu(dtf.format(now));
-        ran.setId_Diskon(tfKodeDiskon.getText());
-        ran.setTotal_Harga(Integer.parseInt(tfTotalHarga.getText()));
-        ran.setBayar(Integer.parseInt(tfBelanja.getText()));
-        ran.setKembalian(Integer.parseInt(tfKembali.getText()));
-        int hasil = ran.tambahTransaksi();
-        if(hasil ==1){
-            System.out.println("Berhasil ");
+        if(diskon.isEmpty()){
+            ran.setRiwayat(tfRiwayat.getText());
+            ran.setId_Kasir(tfNamaKasir.getText());
+            ran.setWaktu(dtf.format(now));
+        
+            ran.setId_Diskon("Tidak ada!!");
+            
+            ran.setTotal_Harga(Integer.parseInt(tfTotalHarga.getText()));
+            ran.setBayar(Integer.parseInt(tfBelanja.getText()));
+            ran.setKembalian(Integer.parseInt(tfKembali.getText()));
+            
+            int hasil = ran.tambahTransaksi();
+            
+            if(hasil == 1){
+                tfRiwayat.setText("");
+                btnTanggal.setText("");
+                tfKodeDiskon.setText("");
+                tfSubTotal.setText("");
+                tfDiskon1.setText("");
+                tfTotalHarga.setText("");
+                tfBelanja.setText("");
+                tfKembali.setText("");
+                lTotal.setText("");
+                tampilBarang("0");
+
+                btnTransaksi.requestFocus();
+                System.out.println("Berhasil ");
+            }else{
+                System.out.println("gagal ");
+            }
         }else{
-            System.out.println("gagal ");
+            ran.setRiwayat(tfRiwayat.getText());
+            ran.setId_Kasir(tfNamaKasir.getText());
+            ran.setWaktu(dtf.format(now));
+        
+            ran.setId_Diskon(tfKodeDiskon.getText());
+            
+            ran.setTotal_Harga(Integer.parseInt(tfTotalHarga.getText()));
+            ran.setBayar(Integer.parseInt(tfBelanja.getText()));
+            ran.setKembalian(Integer.parseInt(tfKembali.getText()));
+            
+            int hasil = ran.tambahTransaksi();
+            if(hasil ==1){
+                tfRiwayat.setText("");
+                btnTanggal.setText("");
+                tfKodeDiskon.setText("");
+                tfSubTotal.setText("");
+                tfDiskon1.setText("");
+                tfTotalHarga.setText("");
+                tfBelanja.setText("");
+                tfKembali.setText("");
+                lTotal.setText("");
+                tampilBarang("0");
+
+                btnTransaksi.requestFocus();
+                System.out.println("Berhasil ");
+            }else{
+                System.out.println("gagal ");
+            }
         }
+        
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void tfKembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfKembaliActionPerformed
@@ -683,7 +734,7 @@ public class DialogTambah extends javax.swing.JDialog {
             return;
         }
 
-        String idRan = (String)table.getValueAt(b, 0);
+            String idRan = (String)table.getValueAt(b, 0);
         String kodeBrg = (String)table.getValueAt(b, 1);
         System.out.println(kodeBrg);
         TableRiwayat ran = new TableRiwayat();
@@ -793,6 +844,7 @@ public class DialogTambah extends javax.swing.JDialog {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(DialogTambah.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */

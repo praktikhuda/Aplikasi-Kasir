@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -45,7 +45,6 @@ public class TableRiwayat {
     private String error;
     private Object[] baris;
     private ArrayList<Object[]> listBarang;
-    
     
 //    Table Riwayat
     public String getRiwayat(){
@@ -167,7 +166,6 @@ public class TableRiwayat {
             int randomIndex = random.nextInt(allowedChars.length());
             sb.append(allowedChars.charAt(randomIndex));
         }
-
         return sb.toString();
     }
     
@@ -180,13 +178,13 @@ public class TableRiwayat {
             st.close(); 
             rs.close(); 
             con.close(); 
-        } catch (Exception e) {
+        }catch(Exception e){
             error = "gagal baca tabel";
         }
-            System.out.println("sql: "+sql);
-            System.out.println("n: "+n);
-            return n;
-        }
+        System.out.println("sql: "+sql);
+        System.out.println("n: "+n);
+        return n;
+    }
     
     public int tambah(){
         sql = "insert into riwayat values ('" +riwayat + "', '" + id_barang + "', " +qty + ", " +total_harga+ ")"; 
@@ -206,20 +204,11 @@ public class TableRiwayat {
             sql = "select * from barang where id_barang = '" + id_barang + "'";
             rs = st.executeQuery(sql);
             if(rs.next()){
-                String idBarang = rs.getString("id_barang");
-                String namaBarang = rs.getString("nama_barang");
-                int stokBarang = rs.getInt("stok");
-                int hargaBarang = rs.getInt("harga");
                 
                 this.setId_Barang(rs.getString("id_barang"));
                 this.setNama_Barang(rs.getString("nama_barang"));
                 this.setStok(rs.getInt("stok"));
                 this.setHarga(rs.getInt("harga"));
-                
-                System.out.println("ID Barang: " + idBarang);
-                System.out.println("Nama Barang: " + namaBarang);
-                System.out.println("Stok Barang: " + stokBarang);
-                System.out.println("Harga Barang: " + (hargaBarang));
                 ketemu = true;
             }else{
                 System.out.println("Tidak menemukan barang yang di cari!!");
@@ -227,52 +216,52 @@ public class TableRiwayat {
             }
             st.close();
             con.close();
-        } catch (Exception e) {
+        }catch(Exception e){
             System.out.println("Gagal akses database");
         }
         return ketemu;
     }
     
     private ArrayList baca(String where, String order){
-    listBarang = new ArrayList<Object[]>();
-    error = null;
-    try {
-        con = Koneksi.getKoneksi();
-        st = con.createStatement();
-       
-//            sql = "select * from barang where id_barang = '"+where+"'";
-//            sql = "select * from riwayat where id_riwayat = '"+where+"'";
-            sql = "SELECT riwayat.id_riwayat, riwayat.id_barang, barang.nama_barang, barang.harga, barang.stok, riwayat.qty, riwayat.total_harga FROM barang "
-                    + "INNER JOIN riwayat ON barang.id_barang = riwayat.id_barang "
-                    + "WHERE riwayat.id_riwayat = '"+where+"'";
+        listBarang = new ArrayList<Object[]>();
+        error = null;
+        try {
+            con = Koneksi.getKoneksi();
+            st = con.createStatement();
 
-            
-        
-        rs = st.executeQuery(sql);
-        while(rs.next()){
+    //            sql = "select * from barang where id_barang = '"+where+"'";
+    //            sql = "select * from riwayat where id_riwayat = '"+where+"'";
+                sql = "SELECT riwayat.id_riwayat, riwayat.id_barang, barang.nama_barang, barang.harga, barang.stok, riwayat.qty, riwayat.total_harga FROM barang "
+                        + "INNER JOIN riwayat ON barang.id_barang = riwayat.id_barang "
+                        + "WHERE riwayat.id_riwayat = '"+where+"'";
 
-            riwayat = rs.getString("id_riwayat");
-            id_barang = rs.getString("id_barang");
-            qty = rs.getInt("qty");
-            
-            total_harga = rs.getInt("total_harga");
-            
-            nama_barang = rs.getString("nama_barang");
-            harga = rs.getInt("harga");
-            stok = rs.getInt("stok");
 
-//            baris = new Object[] {riwayat, id_barang, qty, total_harga};
-                baris = new Object[] {riwayat, id_barang, nama_barang, harga, stok, qty, total_harga};
 
-            listBarang.add(baris);
+            rs = st.executeQuery(sql);
+            while(rs.next()){
+
+                riwayat = rs.getString("id_riwayat");
+                id_barang = rs.getString("id_barang");
+                qty = rs.getInt("qty");
+
+                total_harga = rs.getInt("total_harga");
+
+                nama_barang = rs.getString("nama_barang");
+                harga = rs.getInt("harga");
+                stok = rs.getInt("stok");
+
+    //            baris = new Object[] {riwayat, id_barang, qty, total_harga};
+                    baris = new Object[] {riwayat, id_barang, nama_barang, harga, stok, qty, total_harga};
+
+                listBarang.add(baris);
+            }
+            st.close(); 
+            rs.close(); 
+            con.close(); 
+        }catch(Exception e){
+            error = "gagal baca tabel";
         }
-        st.close(); 
-        rs.close(); 
-        con.close(); 
-    } catch (Exception e) {
-        error = "gagal baca tabel";
-    }
-    return listBarang;
+        return listBarang;
     }
 
     public ArrayList<Object[]> getSemua(String where, String orderField){
@@ -316,20 +305,10 @@ public class TableRiwayat {
             sql = "select * from diskon where id_diskon = '" + id_diskon + "'";
             rs = st.executeQuery(sql);
             if(rs.next()){
-                String idDiskon = rs.getString("id_diskon");
-                int Diskon = rs.getInt("diskon");
-                String Status = rs.getString("status");
-                int Min_Belanja = rs.getInt("min_belanja");
-                
                 this.setId_Diskon(rs.getString("id_diskon"));
                 this.setDiskon(rs.getInt("diskon"));
                 this.setStatus(rs.getString("status"));
                 this.setMin_Belaja(rs.getInt("min_belanja"));
-                
-                System.out.println("ID Barang: " + idDiskon);
-                System.out.println("Total diskon : "+Diskon);
-                System.out.println("Status : "+Status);
-                System.out.println("Minimal Belanaj : "+Min_Belanja);
                 ketemu = true;
             }else{
                 System.out.println("Tidak menemukan diskon yang di cari!!");
@@ -342,5 +321,4 @@ public class TableRiwayat {
         }
         return ketemu;
     }
-    
 }
